@@ -1,5 +1,6 @@
 import os
 import sys
+import pandas as pd
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.dirname(current_dir)
 sys.path.append(parent_dir)
@@ -7,6 +8,7 @@ sys.path.append(parent_dir)
 from src.utils.common import read_config
 from src.utils.data_mgmt import get_data
 from src.utils.model import create_model,save_model
+from src.utils.save_plot import save_plot
 import argparse
 
 def training(config_path):
@@ -29,10 +31,15 @@ def training(config_path):
     artifacts_dir = config['artifacts']["artifacts_dir"]
     model_name = config['artifacts']["model_name"]
     model_dir = config['artifacts']["model_dir"]
-    
+
     model_dir_path  = os.path.join(artifacts_dir,model_dir)
     os.makedirs(model_dir_path,exist_ok=True)
     save_model(model,model_name,model_dir)
+
+    plots_dir = config["artifacts"]["plots_dir"]
+    plots_name = config["artifacts"]["plots_name"]
+
+    save_plot(pd.DataFrame(history.history),plots_dir,plots_name)
 
 if __name__ == "__main__":
     args = argparse.ArgumentParser()

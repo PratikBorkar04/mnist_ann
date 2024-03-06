@@ -10,6 +10,7 @@ params:
   restore_best_weights: True
 
 artifacts:
+  model_name : model.h5
   artifacts_dir : artifacts
   model_dir : model
   plots_dir : plots
